@@ -9,7 +9,7 @@ public class ConnectionFactory {
 
     private static final String URL = "jdbc:mysql://localhost:3306/BD_ES3";
     private static final String USER = "root";
-    private static final String PASSWORD = "13587905";
+    private static final String PASSWORD = "suaSenha";
 
     public static Connection getConnection() {
         try {
