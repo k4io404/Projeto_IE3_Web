@@ -103,6 +103,34 @@ public class PessoaDAO {
         }
     }
 
+
+    public List<Pessoa> consultarNomesMoradores() throws SQLException {
+        //----------------------------
+        //Depois colocar pessoas associadas maiores de 18 anos comparando a data de nascimento
+        //----------------------------
+        String sql = "SELECT pessoa_id, pessoa_nome FROM PESSOAS WHERE pessoa_tipo = 'M'";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                List<Pessoa> listaPessoas = new ArrayList<>();
+
+                // cursor mostra a linha n-1
+                while (rs.next()) {
+                    Pessoa p = new Pessoa();
+                    p.setId(rs.getInt("pessoa_id"));
+                    p.setNome(rs.getString("pessoa_nome"));
+                    listaPessoas.add(p);
+                }
+                return listaPessoas;
+            }
+        }
+    }
+
+
+
     // Consultar por CPF - Retorna um objeto do tipo pessoa
     public Pessoa consultarPessoaCpf(String cpf) throws SQLException {
 

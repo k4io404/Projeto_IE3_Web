@@ -21,6 +21,7 @@ public class LocalControladoService {
     private LocalControladoDTO toDTO(LocalControlado localControlado){
         LocalControladoDTO dto = new LocalControladoDTO();
 
+        dto.setId(localControlado.getId());
         dto.setNome(localControlado.getNome());
         dto.setDescricao(localControlado.getDescricao());
 
@@ -94,5 +95,18 @@ public class LocalControladoService {
             throw new RuntimeException("Erro ao consultar locais controlados no banco de dados",e);
         }
     }
+
+    public List<LocalControladoDTO> consultarNomesLocais(){
+
+        try {
+            return localControladoDAO.consultarNomesLocais()
+                    .stream()
+                    .map(this::toDTO)
+                    .collect(Collectors.toList());
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao consultar nomes dos locais controlados no banco de dados",e);
+        }
+    }
+
 
 }

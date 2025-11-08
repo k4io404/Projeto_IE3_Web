@@ -34,8 +34,17 @@ public class VeiculoService {
 
     public void validarVeiculoDTO(VeiculoDTO veiculoDTO){
         String placa = veiculoDTO.getPlaca();
-        if(placa == null || placa.length() < 7)
+        String modelo = veiculoDTO.getModelo();
+        String cor = veiculoDTO.getCor();
+
+        if(placa == null || placa.length() != 7)
             throw new IllegalArgumentException("Placa do veículo inválida");
+        if(modelo != null && modelo.length() > 40){
+            throw new IllegalArgumentException("Modelo do veículo com quantidade de caracteres acima do permitido");
+        }
+        if(cor != null && cor.length() > 20){
+            throw new IllegalArgumentException("Cor do veiculo com quantidade de caracteres acima do permito");
+        }
     }
 
     public int incluirVeiculo(VeiculoDTO veiculoDTO){

@@ -40,4 +40,7 @@ public class LocalControladoController {
 
         return "locais";
     }
+
+
+
 }

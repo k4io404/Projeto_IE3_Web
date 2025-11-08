@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <title>Cadastro de Pessoas</title>
+    <link rel="stylesheet" th:href="@{/css/cadastro.css}">
+
+      <style>
+           /* Ajuste de largura para inputs específicos */
+           #cpfField { width: 135px; }
+           #nomeField { width: 350px; }
+           #moradorAssociadoField {width: 350px;}
+           #tipoPessoaChoiceBox { width: 97px; }
+           .grid-pane input[type="tel"] { width: 132px; }
+           .grid-pane input[type="email"] { width: 300px; }
+           #empresaField { width: 414px; }
+           #cnpjField { width: 135px; }
+       </style>
+
+   </head>
+   <body>
+
+   <!-- Tela de Carregamento (Overlay) -->
+   <div id="loader-overlay">
+       <div class="loader"></div>
+       <p style = "padding-left: 10px">Carregando...</p>
+   </div>
+
+   <div class="cadastro">
+       <div class="title">
+           <h2> Cadastro Pessoa </h2>
+       </div>
+
+       <div class="tab-pane">
+           <div class="tab-header" id="tab-header">
+               <button onclick="openTab(event, 'pessoa')" class="active" id="btn-pessoa">Pessoa</button>
+               <button onclick="openTab(event, 'autorizacoes')" id="btn-autorizacoes">Autorizações</button>
+               <button onclick="openTab(event, 'veiculos')" id="btn-veiculos">Veículos</button>
+               <button onclick="openTab(event, 'casas')" id="btn-casas">Casas</button>
+               <button onclick="openTab(event, 'servicos')" id="btn-servicos">Serviços</button>
+           </div>
+
+           <div id="pessoa" class="tab-content active">
+               <form action="#" th:action="@{/pessoas/salvar}" th:object="${pessoaForm}" method="post" class="form-vbox">
+                   <label style="font-weight: bold;">Campos obrigatórios *</label>
+
+                   <div class="hbox-tipo">
+                       <label style="width: 115px; font-size: 14px;">Tipo:*</label>
+                       <select id="tipoPessoaChoiceBox" name="tipoPessoa">
+                           <option value="MORADOR">Morador</option>
+                           <option value="VISITANTE">Visitante</option>
+                           <option value="PRESTADOR">Prestador</option>
+                       </select>
+                   </div>
+
+                   <div class="grid-pane">
+                       <label>Nome:*</label>
+                       <input type="text" id="nomeField" name="nome" maxlength="60" />
+
+                       <label>CPF:*</label>
+                       <input type="text" id="cpfField" name="cpf" onkeyup="formatarCpfEvent(event)" maxlength="14"/>
+
+                       <label>Data de Nascimento:*</label>
+                       <input type="date" id="dataNascimentoPicker" name="dataNascimento" />
+
+                       <label>Telefone</label>
+                       <input type="tel" name="telefone" onkeyup="formatarTelefoneEvent(event)" maxlength="11"/>
+
+                       <label>Email</label>
+                       <input type="email" name="email" />
+                   </div>
+
+                   <div class="visitante-pane" id="visitantePane">
+                       <label style="width: 194px;">Morador associado*</label>
+                       <select id="moradorAssociadoField" name="moradorAssociadoId">
+                           <option th:each="morador : ${moradores}" th:value="${morador.id}" th:text="${morador.nome}">Morador X</option>
+                       </select>
+                   </div>
+
+                   <div class="prestador-pane" id="prestadorPane">
+                       <label>Empresa:</label>
+                       <input type="text" id="empresaField" name="empresa" />
+                       <label>CNPJ:</label>
+                       <input type="text" id="cnpjField" name="cnpj" />
+                   </div>
+
+                   <button type="button" style="padding: 10px 20px; width: fit-content" onclick="handleAnexarFoto()">Anexar Imagem*</button>
+
+               </form>
+           </div>
+
+           <div id="autorizacoes" class="tab-content">
+               <div class="form-vbox" style="gap: 10px;">
+                   <form action="#" th:action="@{/autorizacoes/adicionar}" method="post" class="hbox-controls" style="gap: 15px;">
+                       <label for="localAutorizacao">Local:</label>
+                       <select type="text" id="localAutorizacao" name="local" placeholder="Ex: Academia, Salão de Festas" style="width: 250px;">
+                           <option value="">Selecione um local</option>
+                       </select>
+                       <button type="button" class="btn-adicionar" onclick="adicionarAutorizacao()" style="width: 120px;">Adicionar</button>
+                   </form>
+
+                   <table id="tabelaAutorizacoes" class="table-view">
+                       <thead>
+                       <tr>
+                           <th style="width: 250px;">Local</th>
+                       </tr>
+                       </thead>
+                       <tbody>
+                       <tr th:each="auth : ${autorizacoesCadastradas}">
+                           <td th:text="${auth.local}">Salão de Festas</td>
+                       </tr>
+                       <tr th:if="${autorizacoesCadastradas == null or autorizacoesCadastradas.empty}">
+                           <td colspan="1">Nenhuma autorização adicionada.</td>
+                       </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+
+           <div id="veiculos" class="tab-content">
+               <div class="form-vbox" style="gap: 10px;">
+                   <form action="#" th:action="@{/veiculos/adicionar}" method="post" class="hbox-controls">
+                       <input type="text" id="txtPlaca" name="placa" placeholder="Placa" style="width: 110px;" maxlength="7"/>
+                       <input type="text" id="txtModelo" name="modelo" placeholder="Modelo" style="width: 149px;" maxlength="40" />
+                       <input type="text" id="txtCor" name="cor" placeholder="Cor" style="width: 126px;" maxlength="20"/>
+                       <button type="button" class="btn-adicionar" onclick="adicionarVeiculo()">Adicionar</button>
+                   </form>
+
+                   <table id="tabelaVeiculos" class="table-view">
+                       <thead>
+                       <tr>
+                           <th style="width: 106px;">Placa</th>
+                           <th style="width: 167px;">Modelo</th>
+                           <th style="width: 169px;">Cor</th>
+                       </tr>
+                       </thead>
+                       <tbody>
+                       <tr th:each="veiculo : ${veiculosCadastrados}">
+                           <td th:text="${veiculo.placa}">ABC-1234</td>
+                           <td th:text="${veiculo.modelo}">Fiat Uno</td>
+                           <td th:text="${veiculo.cor}">Vermelho</td>
+                       </tr>
+                       <tr th:if="${veiculosCadastrados == null or veiculosCadastrados.empty}">
+                           <td colspan="3">Nenhum veículo adicionado.</td>
+                       </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+
+           <div id="casas" class="tab-content">
+               <div class="form-vbox" style="gap: 10px;">
+                   <form action="#" th:action="@{/casas/adicionar}" method="post" class="hbox-controls">
+                       <select type="text" id="numeroCasa" name="numero" placeholder="Número" style="width: 145px;">
+                           <option value="">Selecionar uma casa</option>
+                       </select>
+
+                       <select id="relacionamentoMorador" name="relacionamento" style="width: 150px; height: 35px;">
+                           <option value="" disabled selected>Relacionamento</option>
+                           <option value="PROPRIETARIO">Proprietário</option>
+                           <option value="INQUILINO">Inquilino</option>
+                           <option value="DEPENDENTE">Dependente</option>
+                       </select>
+
+                       <button type="button" class="btn-adicionar" onclick="adicionarCasa()">Adicionar</button>
+                   </form>
+
+                   <table id="tabelaCasas" class="table-view">
+                       <thead>
+                       <tr>
+                           <th style="width: 75px;">Número</th>
+                           <th style="width: 113px;">Relacionamento</th>
+                       </tr>
+                       </thead>
+                       <tbody>
+                       <tr th:each="casa : ${casasAssociadas}">
+                           <td th:text="${casa.numero}">101</td>
+                           <td th:text="${casa.relacionamento}">Proprietário</td>
+                       </tr>
+                       <tr th:if="${casasAssociadas == null or casasAssociadas.empty}">
+                           <td colspan="2">Nenhuma casa associada.</td>
+                       </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+
+           <div id="servicos" class="tab-content">
+               <div class="form-vbox" style="gap: 10px;">
+                   <form action="#" th:action="@{/servicos/adicionar}" method="post" class="hbox-controls" style="gap: 15px;">
+                       <label for="servicoDataInicio">Início:</label>
+                       <input type="date" id="servicoDataInicio" name="dataInicio" style="width: 140px;" />
+
+                       <label for="servicoDataFim">Fim:</label>
+                       <input type="date" id="servicoDataFim" name="dataFim" style="width: 140px;" />
+
+                       <label for="txtTipoServico">Tipo de Serviço:</label>
+                       <input type="text" id="txtTipoServico" name="tipoServico" placeholder="Ex: Eletricista" style="width: 150px;" />
+
+                       <button type="button" class="btn-adicionar" onclick="adicionarServico()">Adicionar</button>
+                   </form>
+
+                   <table id="tabelaServicos" class="table-view">
+                       <thead>
+                       <tr>
+                           <th style="width: 140px;">Data Início</th>
+                           <th style="width: 140px;">Data Fim</th>
+                           <th style="width: 250px;">Tipo de Serviço</th>
+                       </tr>
+                       </thead>
+                       <tbody>
+                       <tr th:each="servico : ${servicosCadastrados}">
+                           <td th:text="${#dates.format(servico.dataInicio, 'dd/MM/yyyy')}">01/01/2026</td>
+                           <td th:text="${#dates.format(servico.dataFim, 'dd/MM/yyyy')}">31/12/2026</td>
+                           <td th:text="${servico.tipoServico}">Encanador</td>
+                       </tr>
+                       <tr th:if="${servicosCadastrados == null or servicosCadastrados.empty}">
+                           <td colspan="3">Nenhum serviço adicionado.</td>
+                       </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+
+           <div class="bottom-buttons-hbox" style="margin-top: 20px;">
+               <button type="button" id="salvarButton" onclick="salvarCadastro()">Salvar Tudo</button>
+               <button type="button" id="cancelarButton" onclick="history.back()">Cancelar</button>
+           </div>
+
+       </div>
+   </div>
+
+   <script th:src="@{/js/pessoaCadastro.js}"></script>
+
+   </body>
+   </html>

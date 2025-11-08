@@ -101,6 +101,33 @@ public class LocalControladoDAO {
         }
     }
 
+
+    public List<LocalControlado> consultarNomesLocais() throws SQLException {
+
+        String sql = "SELECT local_id, local_nome FROM LOCAIS_CONTROLADOS";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                List<LocalControlado> listaNomesLocais = new ArrayList<>();
+
+                // cursor mostra a linha n-1
+                while (rs.next()) {
+                    LocalControlado l = new LocalControlado();
+                    l.setId(rs.getInt("local_id"));
+                    l.setNome(rs.getString("local_nome"));
+                    listaNomesLocais.add(l);
+                }
+                return listaNomesLocais;
+            }
+        }
+    }
+
+
+
+
     // Deletar - Retorna boolean
     public boolean deletarLocalControlado(int local_id) throws SQLException {
 

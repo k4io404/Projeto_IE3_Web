@@ -57,4 +57,16 @@ public class VeiculoView{
     public void setTipoResponsavel(String tipoResponsavel) {
         this.tipoResponsavel = tipoResponsavel;
     }
+
+    @Override
+    public String toString() {
+        return "VeiculoView{" +
+                "pesNome='" + pesNome + '\'' +
+                ", placa='" + placa + '\'' +
+                ", pesId=" + pesId +
+                ", cor='" + cor + '\'' +
+                ", modelo='" + modelo + '\'' +
+                ", tipoResponsavel='" + tipoResponsavel + '\'' +
+                '}';
+    }
 }

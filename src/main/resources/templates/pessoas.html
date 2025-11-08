@@ -15,6 +15,12 @@
     <h2>Consultar Pessoas</h2>
 
     <div class="pesquisa">
+        <a th:href="@{/pessoas/cadastro}">
+            <button>Cadastrar</button>
+        </a>
+    </div>
+
+    <div class="pesquisa">
         <form th:action="@{/pessoas}" method="get">
             <input type="text" name="pesquisa" placeholder="Pesquisar por nome ou cpf"
                    th:value="${pesquisa}">

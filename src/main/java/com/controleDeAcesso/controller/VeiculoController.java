@@ -1,17 +1,18 @@
 package com.controleDeAcesso.controller;
 
 
+import com.controleDeAcesso.dto.VeiculoDTO;
 import com.controleDeAcesso.service.VeiculoService;
 import com.controleDeAcesso.view.VeiculoView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 
 @Controller
+@RequestMapping("/veiculos")
 public class VeiculoController {
 
     @Autowired
@@ -21,7 +22,7 @@ public class VeiculoController {
         veiculoService = new VeiculoService();
     }
 
-    @GetMapping(value = "/veiculos")
+    @GetMapping()
     public String listarVeiculos(@RequestParam(defaultValue = "0") int page,
                                 @RequestParam(required = false) String pesquisa,
                                 Model model){
@@ -39,5 +40,11 @@ public class VeiculoController {
         model.addAttribute("pesquisa", pesquisa);
 
         return "veiculos";
+    }
+
+    @PostMapping("/veiculos/salvar")
+    @ResponseBody
+    public void salvarVeiculo(@RequestBody VeiculoDTO veiculo){
+        System.out.println(veiculo);
     }
 }

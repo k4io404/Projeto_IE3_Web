@@ -77,6 +77,20 @@ public class PessoaService {
         }
     }
 
+    public List<PessoaDTO> consultarNomesMoradores(){
+
+        try{
+            return pessoaDAO.consultarNomesMoradores()
+                    .stream()
+                    .map(this::toDTO)
+                    .collect(Collectors.toList());
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao consultar nomes de moradores no banco de dados",e);
+        }
+
+    }
+
+
     public PessoaDTO consultarPessoaCpf(String cpf) {
 
         try {

@@ -176,4 +176,28 @@ public class CasaDAO {
             return stmt.executeUpdate() > 0;
         }
     }
+
+    public List<Casa> consultarNumerosCasas() throws SQLException{
+
+        String sql = "SELECT casa_id, casa_ender FROM CASAS";
+
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            try (ResultSet rs = stmt.executeQuery()) {
+
+                List<Casa> listaCasa = new ArrayList<>();
+
+                // cursor mostra a linha n-1
+                while (rs.next()) {
+                    Casa c = new Casa();
+                    c.setId(rs.getInt("casa_id"));
+                    c.setEndereco(rs.getString("casa_ender"));
+                    listaCasa.add(c);
+                }
+                return listaCasa;
+            }
+        }
+
+    }
+
 }

@@ -69,4 +69,6 @@ public class MoradorDAO extends PessoaDAO  {
 //            return stmt.executeUpdate() > 0;
 //        }
     }
+
+
 }

@@ -1,6 +1,5 @@
 package com.controleDeAcesso.controller;
 
-import com.controleDeAcesso.dao.PessoaDAO;
 import com.controleDeAcesso.dto.PessoaDTO;
 import com.controleDeAcesso.service.PessoaService;
 import org.springframework.data.domain.Page;
@@ -8,9 +7,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequestMapping("/pessoas")
 public class PessoaController {
 
     PessoaService pessoaService;
@@ -19,7 +20,7 @@ public class PessoaController {
         this.pessoaService = new PessoaService();
     }
 
-    @GetMapping(value = "/pessoas")
+    @GetMapping()
     public String listaPessoas(@RequestParam(defaultValue = "0") int page,
                                @RequestParam(required = false) String pesquisa,
                                Model model){
@@ -38,4 +39,11 @@ public class PessoaController {
 
         return "pessoas";
     }
+
+    @GetMapping("/cadastro")
+    public String exibirFormularioCadastro(Model model){
+
+        return "pessoaCadastro";
+    }
+
 }

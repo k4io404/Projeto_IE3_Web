@@ -104,8 +104,17 @@ public class CasaService {
         } catch (SQLException e) {
             throw new RuntimeException("erro ao consultar casas view no banco de dados", e);
         }
+    }
 
-
+    public List<CasaDTO> consultarNumerosCasas(){
+        try{
+            return casaDAO.consultarNumerosCasas()
+                    .stream()
+                    .map(this::toDTO)
+                    .collect(Collectors.toList());
+        }catch (SQLException e) {
+            throw new RuntimeException("erro ao consultar números de casas no banco de dados", e);
+        }
     }
 
 }
