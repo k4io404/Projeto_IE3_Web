@@ -5,7 +5,6 @@
 	align-items: center; /* Centers vertically */
 	height: 75vh;
 }
-
 .menu-lateral {
     background-color: #1D1D28;
     padding: 25px;
@@ -53,11 +52,6 @@ body {
 	background-color: #f4f6f8;
 	margin: 0;
 	padding: 0;
-}
-
-h2 {
-	text-align: center;
-	color: #333;
 }
 
 label {
@@ -145,7 +139,8 @@ table {
       justify-content: space-between;
       align-items: center;
     }
-	
+
+/*
 .tab.active {
 	background-color: #007BFF;
 	color: white;
@@ -174,6 +169,7 @@ table {
 	background-color: #eaeaea;
 	margin-right: 5px;
 }
+*/
 
 /*Tabela Acessos*/
 .col-local{
@@ -299,13 +295,3 @@ table {
 .paginacao button:hover {
     opacity: 0.7;
 }
-
-
-
-
-
-
-
-
-
-
