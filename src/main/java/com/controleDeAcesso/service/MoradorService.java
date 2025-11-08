@@ -29,13 +29,15 @@ public class MoradorService {
         PessoaService.validarPessoaDTO(moradorDTO);
         //validarMoradorDTO();
 
-        Morador morador = new Morador(
-                moradorDTO.getNome(),
-                moradorDTO.getCpf(),
-                moradorDTO.getDataNasc(),
-                moradorDTO.getTelefone(),
-                moradorDTO.getEmail()
-        );
+        Morador morador = new Morador();
+
+        morador.setNome(moradorDTO.getNome());
+        morador.setCpf(moradorDTO.getCpf());
+        morador.setDataNasc(moradorDTO.getDataNasc());
+        morador.setTelefone(moradorDTO.getTelefone());
+        morador.setEmail(moradorDTO.getEmail());
+        morador.setAtiva(moradorDTO.isAtiva());
+        morador.setTipo(moradorDTO.getTipo());
 
         try{
             return moradorDAO.incluirMorador(morador);
@@ -49,13 +51,15 @@ public class MoradorService {
         PessoaService.validarPessoaDTO(moradorDTO);
         //validarMoradorDTO();
 
-        Morador morador = new Morador(
-                moradorDTO.getNome(),
-                moradorDTO.getCpf(),
-                moradorDTO.getDataNasc(),
-                moradorDTO.getTelefone(),
-                moradorDTO.getEmail()
-        );
+        Morador morador = new Morador();
+
+        morador.setNome(moradorDTO.getNome());
+        morador.setCpf(moradorDTO.getCpf());
+        morador.setDataNasc(moradorDTO.getDataNasc());
+        morador.setTelefone(moradorDTO.getTelefone());
+        morador.setEmail(moradorDTO.getEmail());
+        morador.setAtiva(moradorDTO.isAtiva());
+        morador.setTipo(moradorDTO.getTipo());
 
         try{
             return moradorDAO.atualizarMorador(morador);

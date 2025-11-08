@@ -2,6 +2,7 @@ package com.controleDeAcesso.service;
 
 import com.controleDeAcesso.dao.PrestadorDAO;
 import com.controleDeAcesso.dto.PrestadorDTO;
+import com.controleDeAcesso.model.Morador;
 import com.controleDeAcesso.model.Prestador;
 import org.springframework.stereotype.Service;
 
@@ -40,15 +41,17 @@ public class PrestadorService {
         PessoaService.validarPessoaDTO(prestadorDTO);
         validarPrestadorDTO(prestadorDTO);
 
-        Prestador prestador = new Prestador(
-                prestadorDTO.getNome(),
-                prestadorDTO.getCpf(),
-                prestadorDTO.getDataNasc(),
-                prestadorDTO.getTelefone(),
-                prestadorDTO.getEmail(),
-                prestadorDTO.getCnpj(),
-                prestadorDTO.getEmpresa()
-        );
+        Prestador prestador = new Prestador();
+
+        prestador.setNome(prestadorDTO.getNome());
+        prestador.setCpf(prestadorDTO.getCpf());
+        prestador.setDataNasc(prestadorDTO.getDataNasc());
+        prestador.setTelefone(prestadorDTO.getTelefone());
+        prestador.setEmail(prestadorDTO.getEmail());
+        prestador.setAtiva(prestadorDTO.isAtiva());
+        prestador.setTipo(prestadorDTO.getTipo());
+        prestador.setEmpresa(prestadorDTO.getEmpresa());
+        prestador.setCnpj(prestadorDTO.getCnpj());
 
         try{
             return prestadorDAO.incluirPrestador(prestador);
@@ -62,15 +65,17 @@ public class PrestadorService {
         PessoaService.validarPessoaDTO(prestadorDTO);
         validarPrestadorDTO(prestadorDTO);
 
-        Prestador prestador = new Prestador(
-                prestadorDTO.getNome(),
-                prestadorDTO.getCpf(),
-                prestadorDTO.getDataNasc(),
-                prestadorDTO.getTelefone(),
-                prestadorDTO.getEmail(),
-                prestadorDTO.getCnpj(),
-                prestadorDTO.getEmpresa()
-        );
+        Prestador prestador = new Prestador();
+
+        prestador.setNome(prestadorDTO.getNome());
+        prestador.setCpf(prestadorDTO.getCpf());
+        prestador.setDataNasc(prestadorDTO.getDataNasc());
+        prestador.setTelefone(prestadorDTO.getTelefone());
+        prestador.setEmail(prestadorDTO.getEmail());
+        prestador.setAtiva(prestadorDTO.isAtiva());
+        prestador.setTipo(prestadorDTO.getTipo());
+        prestador.setEmpresa(prestadorDTO.getEmpresa());
+        prestador.setCnpj(prestadorDTO.getCnpj());
 
         try{
             return prestadorDAO.atualizarPrestador(prestador);

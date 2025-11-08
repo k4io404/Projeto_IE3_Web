@@ -32,7 +32,7 @@ public class PessoaService {
         if(pessoaDTO.getDataNasc() == null)
             throw new IllegalArgumentException("Data de nascimento inválida");
 
-        if(pessoaDTO.getEmail().length() > 100)
+        if(pessoaDTO.getEmail() != null && pessoaDTO.getEmail().length() > 100)
             throw new IllegalArgumentException("Email maior que o permitido (100 caracteres)");
 
     }

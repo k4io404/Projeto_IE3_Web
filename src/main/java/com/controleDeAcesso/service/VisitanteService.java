@@ -1,8 +1,8 @@
 package com.controleDeAcesso.service;
 
 import com.controleDeAcesso.dao.VisitanteDAO;
-import com.controleDeAcesso.dto.PrestadorDTO;
 import com.controleDeAcesso.dto.VisitanteDTO;
+import com.controleDeAcesso.model.Prestador;
 import com.controleDeAcesso.model.Visitante;
 import org.springframework.stereotype.Service;
 
@@ -33,15 +33,16 @@ public class VisitanteService {
 
         PessoaService.validarPessoaDTO(visitanteDTO);
 
-        Visitante visitante = new Visitante(
-                visitanteDTO.getNome(),
-                visitanteDTO.getCpf(),
-                visitanteDTO.getDataNasc(),
-                visitanteDTO.getTelefone(),
-                visitanteDTO.getEmail(),
-                visitanteDTO.getMorCadastraId(),
-                visitanteDTO.getDataAutorizacao()
-        );
+        Visitante visitante = new Visitante();
+
+        visitante.setNome(visitanteDTO.getNome());
+        visitante.setCpf(visitanteDTO.getCpf());
+        visitante.setDataNasc(visitanteDTO.getDataNasc());
+        visitante.setTelefone(visitanteDTO.getTelefone());
+        visitante.setEmail(visitanteDTO.getEmail());
+        visitante.setAtiva(visitanteDTO.isAtiva());
+        visitante.setTipo(visitanteDTO.getTipo());
+        visitante.setMorCadastraId(visitanteDTO.getMorCadastraId());
 
         try{
             return visitanteDAO.incluirVisitante(visitante);
@@ -54,15 +55,16 @@ public class VisitanteService {
 
         PessoaService.validarPessoaDTO(visitanteDTO);
 
-        Visitante visitante = new Visitante(
-                visitanteDTO.getNome(),
-                visitanteDTO.getCpf(),
-                visitanteDTO.getDataNasc(),
-                visitanteDTO.getTelefone(),
-                visitanteDTO.getEmail(),
-                visitanteDTO.getMorCadastraId(),
-                visitanteDTO.getDataAutorizacao()
-        );
+        Visitante visitante = new Visitante();
+
+        visitante.setNome(visitanteDTO.getNome());
+        visitante.setCpf(visitanteDTO.getCpf());
+        visitante.setDataNasc(visitanteDTO.getDataNasc());
+        visitante.setTelefone(visitanteDTO.getTelefone());
+        visitante.setEmail(visitanteDTO.getEmail());
+        visitante.setAtiva(visitanteDTO.isAtiva());
+        visitante.setTipo(visitanteDTO.getTipo());
+        visitante.setMorCadastraId(visitanteDTO.getMorCadastraId());
 
         try{
             return visitanteDAO.atualizarVisitante(visitante);
